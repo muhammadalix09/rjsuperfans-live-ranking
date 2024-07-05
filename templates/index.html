@@ -23,6 +23,27 @@
         color: white;
     }
 
+    .scrollable-row {
+        overflow-y: auto;
+        height: 70vh;
+        padding: 10px;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .scrollable-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge */
+    .scrollable-row {
+        -ms-overflow-style: none;
+    }
+
+    /* Hide scrollbar for Firefox */
+    .scrollable-row {
+        scrollbar-width: none;
+    }
+
     h1 {
         font-size: 3rem;
         /* good font-family: 'Bebas Neue', cursive; */
@@ -38,8 +59,11 @@
 
 </style>
 
+
 <body style="background-color: #151729;">
+
 <div class="container">
+    <!-- add background.jpeg to the static folder -->
     <div class="row">
         <div class="col-12">
 
@@ -50,13 +74,14 @@
                 Super Fans Live Ranking</p>
 
             <hr>
-
-            <div class="row">
+            <!-- add background.jpeg to the static folder -->
+            <div class="row scrollable-row" style="background-image: url('{{ url_for('static', filename='images/background.jpeg') }}'); background-size: cover; background-position: center; border-radius: 10px; padding: 20px;">
                 <div class="col-12">
                     <!-- a card having an image (left) and a text (right) and subtitle -->
                     {% for single_username in data %}
                     <div class="card"
-                         style="background-color: #1e2237; color: white; border-radius: 10px; margin-top: 20px;">
+
+                         style="background-color: rgba(30, 34, 55, 0.8); border-radius: 10px; margin-bottom: 20px; color: white">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
@@ -64,22 +89,47 @@
 
                                     <img src="{{ url_for('static', filename='images/' + loop.index|string + '.jpeg') }}"
 
-                                         style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;"
-                                         class="img-fluid" alt="...">
+
+                                         style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; object-position: center;">
+
 
                                 </div>
-                                <div class="col-8">
-                                    <h5 class="card-title"># {{ loop.index }}</h5>
-                                    <h4 class="card-title">{{ single_username }}</h4>
-                                    <p class="card-text" >{{ super_heroes[loop.index -1] }}</p>
-                                    
+                                <!-- if loop index == 1 THAN COL-5 ELSE COL-6 -->
+                                    {% if loop.index == 1 %}
+
+
+
+                                    <div class="col-5 text-center">
+                                        <h5 class="card-title"># {{ loop.index }}</h5>
+                                        <h4 class="card-title">{{ single_username }}</h4>
+                                        <p class="card-text">{{ super_heroes[loop.index -1] }}</p>
+
+
+                                    </div>
+                                    {% else %}
+                                    <div class="col-8 text-center">
+                                        <h5 class="card-title"># {{ loop.index }}</h5>
+                                        <h4 class="card-title">{{ single_username }}</h4>
+                                        <p class="card-text">{{ super_heroes[loop.index -1] }}</p>
+
+
+                                    </div>
+                                {% endif %}
+
+                                {% if loop.index == 1 %}
+                                <div class="col-3">
+                                    <img class="gold-medal"
+
+                                         src="{{ url_for('static', filename='images/crown.png') }}"
+                                            style="width: 50px; height: 50px; object-fit: cover; object-position: center;"
+                                         alt="gold medal"/>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
 
                     {% endfor %}
-
 
 
                 </div>
